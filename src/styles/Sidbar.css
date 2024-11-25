@@ -1,0 +1,213 @@
+/* Sidebar*/
+.Sidbar {
+  position: relative;
+  width: 200px;
+  height: 860px;
+  background: #1b2b83;
+  border-radius: 13px;
+  padding: 2 1.7rem;
+  transition: 0.5s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* menu */
+.menu {
+  position: relative;
+  flex-direction: column;
+  height: 88%;
+  gap: 2.3rem;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.logo-img {
+  width: 90px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.menu--list .item .icon,
+.menu-logout .item .icon {
+  color: #1da9ff;
+}
+
+/* menu--list */
+.menu--list {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #fff;
+}
+.menu-logout {
+  margin-top: auto;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* menu--list .item */
+.menu--list .item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 1rem;
+  padding: 15px;
+  border-radius: 13px;
+}
+.menu-logout .item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  padding: 15px;
+  border-radius: 13px;
+  background-color: transparent;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Hover state */
+.menu--list .item:hover {
+  width: 170px;
+  background: #fff;
+  color: #000;
+}
+.menu-logout .item:hover {
+  width: 100px;
+  background: #fff;
+  color: #000;
+}
+
+/* Active state */
+.menu--list .item.active {
+  width: 170px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold; 
+
+}
+.menu-logout .item.active {
+  width: 100px;
+  background: #fff;
+  color: #000;
+}
+
+/* เพิ่มความกว้างของ LogOut */
+.menu-logout .item {
+  padding: 12px 25px;
+  width: 100%;
+  text-align: center;
+  gap: 20px;
+}
+
+/* --- Responsive Design --- */
+
+/* For screen widths <= 1024px (tablets) */
+@media (max-width: 1024px) {
+  .Sidbar {
+    width: 200px; /* Sidebar width remains the same for tablets */
+    transition: 0.3 ease-in-out;
+  }
+
+  .menu--list {
+    left: 50px;
+    gap: 15px;
+  }
+
+  .menu--list .item {
+    padding: px 10px;
+  }
+}
+
+/* For screen widths <= 768px (smaller tablets) */
+  @media (max-width: 768px) {
+      .Sidbar {
+          width: 70px; /* Sidebar width remains the same for tablets */
+          align-items: center;
+      }
+  
+      .logo-img {
+          width: 50px; /* Reduce logo size for mobile */
+      }
+  
+      .menu--list {
+          position: absolute;
+          top: 25%;
+          left: 21%;
+          gap: 50px;
+          display: flex;
+          flex-direction: column;
+      }
+  
+      .menu--list .item .icon {
+          transform: scale(1.7);
+      }
+  
+      .menu-logout .item .icon {
+          transform: scale(2.1);
+      }
+  
+      .menu-logout {
+          position: absolute;
+          top: 80%;
+          left: 40%;
+          gap: 50px;
+          flex-direction: column;
+          display: flex;
+      }
+  
+      .menu--list .item {
+          display: flex;
+          align-items: center;
+          gap: 30px;
+          font-size: 1rem;
+          border-radius: 13px;
+          transition: all 0.3s ease; /* Add transition for smooth hover */
+      }
+  
+      /* Make sure hover and active states have the same visual height */
+      .menu--list .item:hover, .menu--list .item.active {
+          gap: 30px;
+          background: #fff;
+          color: #1DA9FF;
+          position: relative;  /* Ensure the item stays in the same position */
+          top: 0;  /* Ensure the hover and active item don't move up */
+      }
+  
+      /* Hover effect for menu-logout */
+      .menu-logout .item:hover {
+          background: #fff;
+          color: #000;
+          position: absolute;
+          top: 80%;
+          left: 1px;
+          display: flex;
+      }
+  
+      .menu-logout .item {
+          padding: 12px 25px;
+          width: 100%;
+          gap: 25px;
+      }
+  
+      /* Ensure logout item hover stays aligned with the regular state */
+      .menu-logout .item.active {
+        position: absolute;
+          top: 80%;
+          background: #fff;
+          color: #000;
+      }
+}
