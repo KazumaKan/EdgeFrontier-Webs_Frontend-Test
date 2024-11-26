@@ -12,7 +12,7 @@ export const dataStore = {
   TimeStamp: null,
   lastReceivedTime: null,
   speed: null,
-  
+
   Prediction: {
     Cold: null,
     Warm: null,
@@ -37,7 +37,7 @@ const DataHost = () => {
     const newSocket = new WebSocket(serverUrl);
 
     newSocket.onopen = () => {
-      setConnectionStatus("Connect Server");
+      setConnectionStatus("Connected");
       console.info("WebSocket connected");
     };
 
@@ -76,7 +76,8 @@ const DataHost = () => {
           dataStore.Prediction.Dry = parsedData.Prediction?.Dry ?? "N/A";
           dataStore.Prediction.Wet = parsedData.Prediction?.Wet ?? "N/A";
           dataStore.Prediction.Normal = parsedData.Prediction?.Normal ?? "N/A";
-          dataStore.Prediction.Unknown = parsedData.Prediction?.Unknown ?? "N/A";
+          dataStore.Prediction.Unknown =
+            parsedData.Prediction?.Unknown ?? "N/A";
 
           dataStore.lastReceivedTime = currentTime;
         }
@@ -89,14 +90,14 @@ const DataHost = () => {
   };
 
   return (
-<div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        margin: "20px",
-        fontFamily: "Arial, sans-serif",
-      }}
+    <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      margin: "15px",
+      fontFamily: "Arial, sans-serif",
+    }}
     >
       <div style={{ marginBottom: "20px" }}>
         <input
@@ -108,8 +109,15 @@ const DataHost = () => {
             width: "300px",
             padding: "10px",
             fontSize: "16px",
-            border: "1px solid #ccc",
+            border: `2px solid ${
+              connectionStatus === "Connected"
+                ? "green"
+                : connectionStatus === "Connection failed"
+                ? "red"
+                : "#ccc"
+            }`,
             borderRadius: "10px",
+            transition: "border-color 0.3s",
           }}
         />
         <button
@@ -125,25 +133,21 @@ const DataHost = () => {
             borderRadius: "10px",
             transition: "background-color 0.3s",
           }}
-          onMouseEnter={(e) =>
-            (e.target.style.backgroundColor = "#357ABD")
-          }
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "#357ABD")}
           onMouseLeave={(e) => (e.target.style.backgroundColor = "#4A90E2")}
         >
           Connect
         </button>
+      
       </div>
-      <p
-        style={{
-          fontSize: "18px",
-          color: connectionStatus === "Connected" ? "green" : "red",
-        }}
-      >
-        Status: {connectionStatus}
-      </p>
+      <div className="styled-wrapper mb-5 p-2">
+      <label className="switch">
+        <input type="checkbox" />
+        <span className="slider" />
+      </label>
+    </div>
     </div>
   );
-}
-
+};
 
 export default DataHost;

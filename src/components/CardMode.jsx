@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import proF from "../assets/profile.png";
 import factory from "../assets/factory.png";
 import { IoMdNotifications } from "react-icons/io";
+import ChangeModeData from "../components/ChangeModeData";
+
 import "../styles/ContentHeader.css";
 
 const CardMode = () => {
@@ -14,7 +16,9 @@ const CardMode = () => {
     // ดึงข้อมูล Hardware ID จาก server
     const fetchHardwareList = async () => {
       try {
-        const response = await fetch("https://server-test-latest.onrender.com/list");
+        const response = await fetch(
+          "https://server-test-latest.onrender.com/list"
+        );
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }
@@ -31,12 +35,20 @@ const CardMode = () => {
 
   const handleChangeMode = async () => {
     try {
-      const response = await fetch("https://server-test-latest.onrender.com/command", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ HardwareID: selectedHardware, Mode: selectedMode, Speed: selectedSpeed }),
-      });
-      if (!response.ok) throw new Error(`Error changing mode: ${response.statusText}`);
+      const response = await fetch(
+        "https://server-test-latest.onrender.com/command",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            HardwareID: selectedHardware,
+            Mode: selectedMode,
+            Speed: selectedSpeed,
+          }),
+        }
+      );
+      if (!response.ok)
+        throw new Error(`Error changing mode: ${response.statusText}`);
       console.log("Mode changed successfully");
     } catch (error) {
       console.error("Failed to change mode:", error);
@@ -45,16 +57,20 @@ const CardMode = () => {
 
   const handleComplete = async () => {
     try {
-      const response = await fetch("https://server-test-latest.onrender.com/command", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          HardwareID: selectedHardware,
-          Mode: selectedMode,
-          Speed: selectedSpeed,
-        }),
-      });
-      if (!response.ok) throw new Error(`Error completing action: ${response.statusText}`);
+      const response = await fetch(
+        "https://server-test-latest.onrender.com/command",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            HardwareID: selectedHardware,
+            Mode: selectedMode,
+            Speed: selectedSpeed,
+          }),
+        }
+      );
+      if (!response.ok)
+        throw new Error(`Error completing action: ${response.statusText}`);
       console.log("Action completed successfully");
     } catch (error) {
       console.error("Failed to complete action:", error);
@@ -65,15 +81,21 @@ const CardMode = () => {
     <div className="flex-1 relative bg-[#f1f5f9] rounded-lg shadow-lg p-6 max-w-md mx-auto">
       {/* Header Section */}
       <div className="flex flex-col items-center space-y-4 mt-5">
-        <img src={proF} alt="profile" className="w-32 h-32 rounded-full shadow-md" />
+        <img
+          src={proF}
+          alt="profile"
+          className="w-32 h-32 rounded-full shadow-md"
+        />
         <h3 className="text-lg text-gray-700 font-semibold">User Profile</h3>
       </div>
-  
+
       {/* Content Section */}
       <div className="mt-5 space-y-4">
         {/* Hardware ID Section */}
         <div className="flex flex-col items-center">
-          <h2 className="text-center font-semibold text-gray-700 mb-2">Hardware ID:</h2>
+          <h2 className="text-center font-semibold text-gray-700 mb-2">
+            Hardware ID:
+          </h2>
           <select
             className="dropdown w-3/4 p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring focus:ring-gray-300"
             value={selectedHardware}
@@ -86,7 +108,7 @@ const CardMode = () => {
             ))}
           </select>
         </div>
-  
+
         {/* Mode and Speed Section */}
         <div className="flex justify-between items-center space-x-4">
           <div className="w-1/2">
@@ -113,7 +135,7 @@ const CardMode = () => {
             </select>
           </div>
         </div>
-  
+
         {/* Complete Button */}
         <div className="flex justify-center mt-4">
           <button
@@ -124,23 +146,26 @@ const CardMode = () => {
           </button>
         </div>
       </div>
-  
-{/* Factory Image */}
-<div className="flex justify-center mt-auto">
-  <img
-    src={factory}
-    alt="factory"
-    className="w-36 h-auto rounded-lg mb-0"
-    style={{ marginBottom: 0 }}
-  />
-</div>
+
+      <div>
+        <ChangeModeData selectedMode={selectedMode} />
+      </div>
+
+      {/* Factory Image */}
+      <div className="flex justify-center mt-auto">
+        <img
+          src={factory}
+          alt="factory"
+          className="w-auto  h-25 rounded-lg mb-0  mt-5"
+          style={{ marginBottom: 0 }}
+        />
+      </div>
       {/* Notification Icon */}
       <div className="notify absolute top-6 right-6">
         <IoMdNotifications className="icon" />
       </div>
     </div>
   );
-  
 };
 
 export default CardMode;
