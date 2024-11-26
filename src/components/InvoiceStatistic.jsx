@@ -22,25 +22,25 @@ const InvoiceStatistic = () => {
 
   // ดึงข้อมูลแบบเรียลไทม์จาก dataStore
   useEffect(() => {
-    // ฟังก์ชันที่จะทำให้ข้อมูลใน dataStore อัปเดต
     const updateData = () => {
       const updatedData = Object.keys(dataStore)
-        .filter((key) => !["Event", "HardwareID", "TimeStamp"].includes(key)) // กรองข้อมูลที่ไม่ต้องการ
+        .filter(
+          (key) =>
+            !["Event", "HardwareID", "TimeStamp", "Prediction"].includes(key)
+        )
         .map((key) => ({
           label: key.toUpperCase(),
-          value: dataStore[key],
-          color: getColorByKey(key), // ใช้ฟังก์ชันเพื่อกำหนดสี
+          value: parseFloat(dataStore[key]) || 0,
+          color: getColorByKey(key),
         }));
-      setData(updatedData); // อัปเดตข้อมูล
+      setData(updatedData);
     };
 
-    // เรียก updateData ทุกครั้งที่ WebSocket ส่งข้อมูลใหม่มา
-    const interval = setInterval(updateData, 2000); // ทุกๆ 2 วินาที
-
-    return () => clearInterval(interval); // เคลียร์ interval เมื่อ component ถูกทำลาย
+    const interval = setInterval(updateData, 2000); // อัปเดตทุก 2 วินาที
+    return () => clearInterval(interval); // ล้าง interval เมื่อ component ถูกทำลาย
   }, []);
 
-  // ฟังก์ชันเพื่อกำหนดสีตามค่า key
+  // ฟังก์ชันเพื่อกำหนดสีตาม key
   const getColorByKey = (key) => {
     const colors = {
       CO2: "#FF5733",
@@ -50,14 +50,17 @@ const InvoiceStatistic = () => {
       TEMP: "#FF6F00",
       VOC: "#39D353",
     };
-    return colors[key] || "#ccc"; // กำหนดสี default
+    return colors[key] || "#ccc"; // สี default
   };
 
   // ฟิลเตอร์ข้อมูลที่มองเห็น
   const visibleData = data.filter((item) => visibleItems[item.label]);
 
   // คำนวณ total และเปอร์เซ็นต์ใหม่
-  const visibleTotal = visibleData.reduce((sum, item) => sum + item.value, 0);
+  const visibleTotal = visibleData.reduce(
+    (sum, item) => sum + item.value,
+    0
+  );
   const adjustedData = visibleData.map((item) => ({
     ...item,
     adjustedPercentage:
@@ -84,8 +87,8 @@ const InvoiceStatistic = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-start bg-[#fff] p-5 rounded-lg shadow-xl relative mt-6 ">
-      <h2 className="text-xl font-semibold  text-[#707178] mb-6">
+    <main className="flex flex-col items-center justify-start bg-[#fff] p-5 rounded-lg shadow-xl relative mt-6">
+      <h2 className="text-xl font-semibold text-[#707178] mb-6">
         Invoice Statistic
       </h2>
 
@@ -126,7 +129,8 @@ const InvoiceStatistic = () => {
                     "TimeStamp",
                     "LASTRECEIVEDTIME",
                     "SPEED",
-                  ].includes(item.label) // เพิ่ม LASTRECEIVEDTIME และ SPEED ในเงื่อนไขการกรอง
+                    "Prediction",
+                  ].includes(item.label)
               )
               .map((item) => (
                 <div key={item.label} className="flex items-center mb-2">

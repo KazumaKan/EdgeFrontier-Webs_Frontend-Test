@@ -61,7 +61,7 @@ function Card() {
                   percentage={block5Active ? data.TEMP : 0}
                   color={block5Active ? "lightblue" : "gray"}
                 />
-                <h2 className="text-5xl font-bold text-[#3ABEFF]">
+                <h2 className="text-4xl font-bold text-[#3ABEFF]">
                   {block5Active ? data.TEMP : 0} °C
                 </h2>
               </div>
@@ -91,7 +91,7 @@ function Card() {
                   percentage={block6Active ? data.HUMID : 0}
                   color={block6Active ? "lightgreen" : "gray"}
                 />
-                <h2 className="text-5xl font-bold text-[#0F5DC3]">
+                <h2 className="text-4xl font-bold text-[#0F5DC3]">
                   {block6Active ? data.HUMID : 0} %
                 </h2>
               </div>
@@ -120,8 +120,8 @@ function Card() {
               } transition-opacity duration-500`}
             >
               <img src={CO} alt="CO2" className="ml-6 w-[56px] h-[54px]" />
-              <h2 className="text-5xl font-bold ml-14 text-[#FF9D00]">
-                {block1Active ? data.CO2 : 0}
+              <h2 className="text-2xl font-bold ml-9 text-[#FF9D00]">
+                {block1Active ? data.CO2 : 0}  ppm
               </h2>
             </div>
           </div>
@@ -145,8 +145,8 @@ function Card() {
               } transition-opacity duration-500`}
             >
               <img src={VOC} alt="VOC" className="ml-6 w-[56px] h-[54px]" />
-              <h2 className="text-5xl font-bold ml-14 text-[#43D2A7]">
-                {block2Active ? data.VOC : 0}
+              <h2 className="text-2xl font-bold ml-9 text-[#43D2A7]">
+                {block2Active ? data.VOC : 0} ppm
               </h2>
             </div>
           </div>
@@ -172,8 +172,8 @@ function Card() {
               } transition-opacity duration-500`}
             >
               <img src={RODON} alt="RODON" className="ml-7 w-[50px] h-[50px]" />
-              <h2 className="text-5xl font-bold ml-14 text-[#67A4F4]">
-                {block3Active ? data.RA : 0}
+              <h2 className="text-2xl font-bold ml-9 text-[#67A4F4]">
+                {block3Active ? data.RA : 0} Bq/m³
               </h2>
             </div>
           </div>
@@ -204,7 +204,7 @@ function Card() {
           >
             {/* Render the RangeMeter */}
             <RangeMeter value={block4Active ? data.PRESSURE : 0} />
-            <h2 className="text-5xl mt-14 font-bold text-[#DB2777]">
+            <h2 className="text-4xl mt-14 font-bold text-[#DB2777]">
               {block4Active ? data.PRESSURE : 0} Pa
             </h2>
           </div>

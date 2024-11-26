@@ -16,18 +16,18 @@ const ChartsTime = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (dataStore.speed) {
+      if (dataStore.speed && isFinite(dataStore.speed)) { // ตรวจสอบว่า speed มีค่าและไม่ใช่ Infinity
         setChartData((prevData) => {
           const newData = {
-            timestamp: new Date().toLocaleTimeString(),
+            timestamp: new Date().toLocaleTimeString(), // เวลาปัจจุบัน
             speed: dataStore.speed,
           };
 
           // เพิ่มข้อมูลใหม่เข้าไปใน chartData
           const updatedData = [...prevData, newData];
 
-          // จำกัดให้แสดงแค่ 10 ค่าสุดท้าย
-          if (updatedData.length > 10) {
+          // จำกัดให้แสดงแค่ 7 ค่าสุดท้าย
+          if (updatedData.length > 7) {
             updatedData.shift(); // ลบข้อมูลที่เก่าที่สุด
           }
 
@@ -36,24 +36,25 @@ const ChartsTime = () => {
       }
     }, 1000); // อัปเดตข้อมูลทุกๆ 1 วินาที
 
-    return () => clearInterval(interval); // ควบคุมการหยุดการอัปเดตเมื่อคอมโพเนนต์ถูกทำลาย
+    return () => clearInterval(interval); // หยุด interval เมื่อ component ถูกทำลาย
   }, []);
 
   return (
     <div className="bg-[#fff] p-6 rounded-lg shadow-xl mt-6 ">
-      <h2 className="text-xl font-semibold  text-[#707178] text-center mb-6 ">
+      <h2 className="text-xl font-semibold text-[#707178] text-center mb-6">
         Speed Over Time
       </h2>
       <ResponsiveContainer width={572} height={330}>
         <LineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
           <XAxis
-            dataKey="timestamp"
+            dataKey="timestamp" // ใช้ "timestamp" ในการแสดงเวลาบนแกน X
             tick={{ fontSize: 12, fill: "#555" }}
             axisLine={{ stroke: "#ddd" }}
+            interval={0} // แสดงทุกค่าบนแกน X (ไม่เว้นระยะ)
           />
           <YAxis
-            domain={["auto", "auto"]} // การตั้งค่าให้ Y-axis ปรับช่วงอัตโนมัติ
+            domain={[0, 50]} // การตั้งค่าช่วงของแกน Y ให้มีค่า 0 ถึง 50
             tickFormatter={(value) => value.toFixed(2)} // การจัดรูปแบบตัวเลขให้แสดง 2 ตำแหน่งทศนิยม
             label={{
               value: "Speed (data/sec)", // ชื่อของแกน Y

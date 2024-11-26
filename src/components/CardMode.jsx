@@ -1,200 +1,146 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import proF from "../assets/profile.png";
 import factory from "../assets/factory.png";
 import { IoMdNotifications } from "react-icons/io";
 import "../styles/ContentHeader.css";
-import { HardwareID, setMode, setSpeed } from "./ListHID"; // Assuming these come from a state management
-
-export const postMode = async (mode) => {
-  try {
-    const response = await fetch(
-      "https://server-test-latest.onrender.com/command",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ mode }),
-      }
-    );
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
-    return await response.json();
-  } catch (err) {
-    console.error("Failed to change mode:", err);
-    throw err;
-  }
-};
-
-export const getSpeedMode = async (speedMode) => {
-  try {
-    const response = await fetch(
-      `https://server-test-latest.onrender.com/list?speedMode=${speedMode}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
-    return await response.json();
-  } catch (err) {
-    console.error("Failed to change speed mode:", err);
-    throw err;
-  }
-};
 
 const CardMode = () => {
-  const [selectedMode, setSelectedMode] = useState(""); // State for Mode selection
-  const [selectedSpeed, setSelectedSpeed] = useState(""); // State for Speed selection
-  const [loading, setLoading] = useState(false);
-  const [list, setList] = useState([]);
-  const api = "https://server-test-latest.onrender.com/list"; // API URL
+  const [hardwareList, setHardwareList] = useState([]);
+  const [selectedHardware, setSelectedHardware] = useState("");
+  const [selectedMode, setSelectedMode] = useState("SAFE");
+  const [selectedSpeed, setSelectedSpeed] = useState("MEDIUM");
 
   useEffect(() => {
+    // ดึงข้อมูล Hardware ID จาก server
     const fetchHardwareList = async () => {
       try {
-        const response = await fetch(api, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
+        const response = await fetch("https://server-test-latest.onrender.com/list");
         if (!response.ok) {
-          throw new Error(
-            `Error fetching hardware list: ${response.statusText}`
-          );
+          throw new Error(`Error: ${response.statusText}`);
         }
-
         const data = await response.json();
-        setList(data);
-
-        // Assuming the first hardware item is the default choice
-        if (data.length > 0) {
-          const defaultItem = data[0];
-          setSelectedMode(defaultItem.Mode);
-          setSelectedSpeed(defaultItem.Speed);
-          setMode(defaultItem.Mode); // Set global state
-          setSpeed(defaultItem.Speed); // Set global state
-        }
+        setHardwareList(data);
+        if (data.length > 0) setSelectedHardware(data[0].HardwareID);
       } catch (error) {
         console.error("Failed to fetch hardware list:", error);
       }
     };
 
     fetchHardwareList();
-  }, [api]);
+  }, []);
 
-  const handleSubmit = async () => {
-    const payload = {
-      HardwareID: HardwareID, // Use the fixed HardwareID from the stateStore
-      Mode: selectedMode,
-      Speed: selectedSpeed,
-    };
-
+  const handleChangeMode = async () => {
     try {
-      const response = await fetch(
-        "https://server-test-latest.onrender.com/command",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Command sent successfully");
-      } else {
-        throw new Error("Failed to send command");
-      }
+      const response = await fetch("https://server-test-latest.onrender.com/command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ HardwareID: selectedHardware, Mode: selectedMode, Speed: selectedSpeed }),
+      });
+      if (!response.ok) throw new Error(`Error changing mode: ${response.statusText}`);
+      console.log("Mode changed successfully");
     } catch (error) {
-      console.error("Error sending command:", error);
+      console.error("Failed to change mode:", error);
+    }
+  };
+
+  const handleComplete = async () => {
+    try {
+      const response = await fetch("https://server-test-latest.onrender.com/command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          HardwareID: selectedHardware,
+          Mode: selectedMode,
+          Speed: selectedSpeed,
+        }),
+      });
+      if (!response.ok) throw new Error(`Error completing action: ${response.statusText}`);
+      console.log("Action completed successfully");
+    } catch (error) {
+      console.error("Failed to complete action:", error);
     }
   };
 
   return (
     <div className="flex-1 relative bg-[#f1f5f9] rounded-lg shadow-lg p-6 max-w-md mx-auto">
-      {/* Profile Section */}
-      <div className="flex flex-col items-center space-y-4">
-        <img
-          src={proF}
-          alt="profile"
-          className="w-32 h-32 rounded-full shadow-md"
-        />
+      {/* Header Section */}
+      <div className="flex flex-col items-center space-y-4 mt-5">
+        <img src={proF} alt="profile" className="w-32 h-32 rounded-full shadow-md" />
         <h3 className="text-lg text-gray-700 font-semibold">User Profile</h3>
       </div>
-
-      {/* Mode Section */}
-      <div className="mt-6 space-y-4">
-        <h2>Mode:</h2>
-        <div className="dropdown-wrapper">
+  
+      {/* Content Section */}
+      <div className="mt-5 space-y-4">
+        {/* Hardware ID Section */}
+        <div className="flex flex-col items-center">
+          <h2 className="text-center font-semibold text-gray-700 mb-2">Hardware ID:</h2>
           <select
-            className="dropdown"
-            value={selectedMode}
-            onChange={(e) => {
-              setSelectedMode(e.target.value);
-              setMode(e.target.value); // Update global state
-            }}
+            className="dropdown w-3/4 p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring focus:ring-gray-300"
+            value={selectedHardware}
+            onChange={(e) => setSelectedHardware(e.target.value)}
           >
-            <option value="SAFE">SAFE</option>
-            <option value="AUTO">AUTO</option>
-            <option value="MANUAL">MANUAL</option>
-            <option value="OFF">OFF</option>
+            {hardwareList.map((hardware) => (
+              <option key={hardware.HardwareID} value={hardware.HardwareID}>
+                {hardware.HardwareID}
+              </option>
+            ))}
           </select>
         </div>
-
-        {/* Speed Section */}
-        <h2>Speed:</h2>
-        <div className="dropdown-wrapper">
-          <select
-            className="dropdown"
-            value={selectedSpeed}
-            onChange={(e) => {
-              setSelectedSpeed(e.target.value);
-              setSpeed(e.target.value); // Update global state
-            }}
+  
+        {/* Mode and Speed Section */}
+        <div className="flex justify-between items-center space-x-4">
+          <div className="w-1/2">
+            <h2 className="text-gray-700 font-semibold mb-1">Mode:</h2>
+            <select
+              className="dropdown w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring focus:ring-gray-300"
+              value={selectedMode}
+              onChange={(e) => setSelectedMode(e.target.value)}
+            >
+              <option value="SAFE">SAFE</option>
+              <option value="PREDICTION">PREDICTION</option>
+            </select>
+          </div>
+          <div className="w-1/2">
+            <h2 className="text-gray-700 font-semibold mb-1">Speed:</h2>
+            <select
+              className="dropdown w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring focus:ring-gray-300"
+              value={selectedSpeed}
+              onChange={(e) => setSelectedSpeed(e.target.value)}
+            >
+              <option value="FAST">FAST</option>
+              <option value="SLOW">SLOW</option>
+              <option value="MEDIUM">MEDIUM</option>
+            </select>
+          </div>
+        </div>
+  
+        {/* Complete Button */}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handleComplete}
+            className="w-3/4 p-3 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition duration-300"
           >
-            <option value="FAST">FAST</option>
-            <option value="SLOW">SLOW</option>
-            <option value="NORMAL">NORMAL</option>
-          </select>
-        </div>
-
-        {/* Submit Button */}
-        <button
-          onClick={handleSubmit}
-          className="w-full p-3 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition duration-300"
-        >
-          Submit
-        </button>
-      </div>
-
-      {/* Hardware ID Section */}
-      <div className="mt-6">
-        <h2>Hardware ID:</h2>
-        <div className="dropdown-wrapper">
-          <input type="text" value={HardwareID} disabled className="dropdown" />
+            Complete
+          </button>
         </div>
       </div>
-
-      {/* Factory Image */}
-      <div className="mt-6 flex justify-center">
-        <img
-          src={factory}
-          alt="factory"
-          className="w-36 h-auto rounded-lg shadow-md"
-        />
-      </div>
-
+  
+{/* Factory Image */}
+<div className="flex justify-center mt-auto">
+  <img
+    src={factory}
+    alt="factory"
+    className="w-36 h-auto rounded-lg mb-0"
+    style={{ marginBottom: 0 }}
+  />
+</div>
       {/* Notification Icon */}
       <div className="notify absolute top-6 right-6">
         <IoMdNotifications className="icon" />
       </div>
     </div>
   );
+  
 };
 
 export default CardMode;

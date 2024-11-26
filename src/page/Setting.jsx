@@ -1,4 +1,3 @@
-import ContentHeader from "../components/ContentHeader";
 import Profile from "../components/Profile";
 
 const Setting = () => {
@@ -7,10 +6,9 @@ const Setting = () => {
       className="px-7"
       style={{
         paddingLeft: "0px",
-        paddingRight: "15px",
+        paddingRight: "480px",
       }}
     >
-      <ContentHeader />
       <Profile />
     </div>
   );
