@@ -18,10 +18,13 @@ const Sidbar = () => {
   return (
     <div className="Sidbar">
       <div className="menu">
+        <Link  to="Dashboard/">
         <div className="logo">
           <img src={Logo} alt="Logo" className="logo-img" />
         </div>
+        </Link>
         <div className="menu--list">
+          <Link to="Dashboard/">
             <a
               className={`item ${activeItem === "dashboard" ? "active" : ""}`}
               onClick={() => handleItemClick("dashboard")}
@@ -29,7 +32,9 @@ const Sidbar = () => {
               <RiDashboardHorizontalFill className="icon" />
               Dashboard
             </a>
+            </Link>
 
+            <Link to="Statistics/">
             <a
               className={`item ${activeItem === "statistic" ? "active" : ""}`}
               onClick={() => handleItemClick("statistic")}
@@ -37,7 +42,9 @@ const Sidbar = () => {
               <SlGraph className="icon" />
               Statistics
             </a>
+            </Link>
 
+            <Link to="Setting/">
             <a
               className={`item ${activeItem === "settings" ? "active" : ""}`}
               onClick={() => handleItemClick("settings")}
@@ -45,11 +52,12 @@ const Sidbar = () => {
               <IoSettingsSharp className="icon" />
               Setting
             </a>
+            </Link>
             
         </div>
       </div>
       <div className="menu-logout">
-        
+          <Link to="LogOut/">
           <a
             className={`item ${activeItem === "logout" ? "active" : ""}`}
             onClick={() => handleItemClick("logout")}
@@ -57,6 +65,7 @@ const Sidbar = () => {
             <IoLogOut className="icon" />
             LogOut
           </a>
+          </Link>
     </div>
     </div>
   );

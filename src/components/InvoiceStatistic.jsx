@@ -84,15 +84,12 @@ const InvoiceStatistic = () => {
   };
 
   return (
-    <main
-      className="flex flex-col items-center justify-start bg-gray-200 p-5 rounded-lg shadow-xl relative mt-6"
-      style={{ width: "590px", height: "335px" }}
-    >
-      <h2 className="text-2xl font-extrabold text-[#707178] mb-4 mt-6">
+    <main className="flex flex-col items-center justify-start bg-[#fff] p-5 rounded-lg shadow-xl relative mt-6 ">
+      <h2 className="text-xl font-semibold  text-[#707178] mb-6">
         Invoice Statistic
       </h2>
 
-      <div className="flex items-center">
+      <div className="flex items-center mt-8">
         {/* Pie Chart */}
         <div
           className="relative w-52 h-52 rounded-full"
@@ -101,7 +98,7 @@ const InvoiceStatistic = () => {
               visibleTotal > 0 ? `conic-gradient(${gradientSegments})` : "gray",
           }}
         >
-          <div className="absolute inset-6 bg-gray-200 rounded-full"></div>
+          <div className="absolute inset-6 bg-[#fff] rounded-full"></div>
           <div className="absolute inset-0 flex justify-center items-center">
             <span className="text-lg font-bold text-[#454444]">
               {visibleTotal} Total
@@ -112,7 +109,7 @@ const InvoiceStatistic = () => {
         {/* Settings Button */}
         <button
           onClick={toggleDropdown}
-          className="absolute top-4 right-4 p-2 text-white bg-gray-700 rounded-full flex items-center justify-center"
+          className="absolute top-4 right-4 p-2 text-white bg-gray-400 rounded-full flex items-center justify-center"
         >
           <LuSettings2 size={20} />
         </button>
@@ -123,7 +120,13 @@ const InvoiceStatistic = () => {
             {data
               .filter(
                 (item) =>
-                  !["Event", "HardwareID", "TimeStamp"].includes(item.label)
+                  ![
+                    "Event",
+                    "HardwareID",
+                    "TimeStamp",
+                    "LASTRECEIVEDTIME",
+                    "SPEED",
+                  ].includes(item.label) // เพิ่ม LASTRECEIVEDTIME และ SPEED ในเงื่อนไขการกรอง
               )
               .map((item) => (
                 <div key={item.label} className="flex items-center mb-2">
@@ -140,7 +143,7 @@ const InvoiceStatistic = () => {
         )}
 
         {/* Legend */}
-        <ul className="mt-0 ml-6 bg-[#f1f0f0] shadow-lg rounded-lg w-64 p-4 text-sm text-[#595959]">
+        <ul className="mt-0 ml-6 bg-[#F9F8F8] shadow-lg rounded-lg w-64 p-4 text-sm text-[#595959]">
           {adjustedData.map((item) => (
             <li
               key={item.label}

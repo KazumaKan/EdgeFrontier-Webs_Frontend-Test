@@ -8,15 +8,16 @@
     justify-content: space-between;  
   }
   
-.header--activity{
+  .header--activity {
     display: flex;
-    align-items: center; 
-    gap: 20px; 
+    align-items: center;
+    gap: 20px; /* เพิ่มระยะห่างระหว่างแต่ละส่วน */
+    justify-content: space-between; /* ให้ทุกส่วนกระจายออก */
   }
 
 /* Message Box */
 .message-box {
-  background: #dde6ed; 
+  background: #fff; 
   padding: 15px; 
   border-radius: 25px;
   display: flex;
@@ -32,7 +33,7 @@
 
   /* Notification Icon */
   .notify {
-      margin-left: 770px;
+      margin-left: 500px;
       background: #4E82EB;
       padding: 5px;
       border-radius: 7px;
@@ -73,9 +74,67 @@
 
 /* Hide default HTML checkbox */
 .switch input {
+  
   opacity: 0;
   width: 0;
   height: 0;
+}
+
+/* Switch styling */
+.styled-wrapper {
+  
+  margin-right: px;
+}
+
+/* Hardware ID text and dropdown styling */
+.HardwareID {
+  display: flex;
+  align-items: center;
+  margin-right: 15px; /* ปรับระยะห่าง */
+}
+
+
+/* Dropdown wrapper */
+.dropdown-wrapper {
+  margin-left: 10px;
+}
+
+.dropdown {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #fff;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover and focus effects for dropdown */
+.dropdown:hover {
+  border-color: #f6ce77;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown:focus {
+  border-color: #f6ce77;
+  box-shadow: 0 0 5px rgba(246, 206, 119, 0.5);
+}
+
+/* Notification icon styling */
+.notify {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+}
+
+.icon:hover {
+  color: #f6ce77; /* Highlight color on hover */
 }
 
 /* The slider */

@@ -1,12 +1,13 @@
-/* Sidebar*/
+/* Sidebar */
 .Sidbar {
   position: relative;
-  width: 200px;
-  height: 860px;
+  width: 250px; /* ขนาดเริ่มต้น */
+  min-width: 70px; /* ขนาดเล็กสุดสำหรับ responsive */
+  height: 100vh; /* สูงเต็มจอ */
   background: #1b2b83;
   border-radius: 13px;
-  padding: 2 1.7rem;
-  transition: 0.5s;
+  padding: 1rem;
+  transition: width 0.3s ease; /* เพิ่มการเปลี่ยนขนาดแบบลื่นไหล */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -29,7 +30,7 @@
 }
 
 .logo-img {
-  width: 90px;
+  width: 100px;
   height: auto;
   border-radius: 10px;
 }
@@ -49,13 +50,7 @@
   gap: 20px;
   color: #fff;
 }
-.menu-logout {
-  margin-top: auto;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 /* menu--list .item */
 .menu--list .item {
@@ -66,52 +61,63 @@
   padding: 15px;
   border-radius: 13px;
 }
-.menu-logout .item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1rem;
-  padding: 15px;
-  border-radius: 13px;
-  background-color: transparent;
-  color: #fff;
-  transition: all 0.3s ease;
-}
 
 /* Hover state */
 .menu--list .item:hover {
-  width: 170px;
+  width: 200px;
   background: #fff;
   color: #000;
 }
-.menu-logout .item:hover {
-  width: 100px;
-  background: #fff;
-  color: #000;
-}
+
 
 /* Active state */
 .menu--list .item.active {
-  width: 170px;
+  width: 200px;
   background: #fff;
   color: #000;
   cursor: pointer;
-  font-weight: bold; 
 
 }
-.menu-logout .item.active {
-  width: 100px;
-  background: #fff;
-  color: #000;
+
+.menu-logout {
+  margin-top: auto;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* เพิ่มความกว้างของ LogOut */
+/* Logout Button Animation */
 .menu-logout .item {
   padding: 12px 25px;
   width: 100%;
   text-align: center;
   gap: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 13px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+  transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
 }
+
+.menu-logout .item:hover {
+  width: 170px;
+  background-color: #fff;
+  color: #000;
+  transform: scale(1.05); /* เพิ่มเอฟเฟกต์ขยายเล็กน้อย */
+}
+
+.menu-logout .item.active {
+  width: 170px;
+  background-color: #fff;
+  color: #000;
+  transform: scale(1.1); /* เน้นด้วยการขยายเพิ่ม */
+  transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
+}
+
 
 /* --- Responsive Design --- */
 

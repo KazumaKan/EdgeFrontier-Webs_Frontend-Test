@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PieChart from "../components/PieChartH";
 import PieChartT from "../components/PieChartT";
 import RangeMeter from "../components/RangeMeter";
@@ -24,7 +24,7 @@ function Card() {
     // Set up an interval to check for changes every 2 seconds
     const interval = setInterval(() => {
       setData({ ...dataStore }); // Update state with the latest data from dataStore
-    }, 2000);
+    });
 
     // Clean up the interval on component unmount
     return () => clearInterval(interval);
@@ -38,7 +38,7 @@ function Card() {
           {/* Row 1 */}
           <div className="flex gap-4">
             {/* Block 5 */}
-            <div className="bg-gray-200 rounded-[30px] p-4 w-[375px] h-[250px] shadow-xl">
+            <div className="bg-[#fff] rounded-[30px] p-4 w-[375px] h-[250px] shadow-xl">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-[#707178] ml-5">
                   TEMPERATURE
@@ -68,7 +68,7 @@ function Card() {
             </div>
 
             {/* Block 6 */}
-            <div className="bg-gray-200 rounded-[30px] p-4 w-[375px] h-[250px] shadow-xl">
+            <div className="bg-[#fff] rounded-[30px] p-4 w-[375px] h-[250px] shadow-xl">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-[#707178] ml-5">
                   HUMIDITY
@@ -102,7 +102,7 @@ function Card() {
         {/* Row 2 */}
         <div className="flex gap-4">
           {/* Block 1 */}
-          <div className="bg-gray-200 rounded-[30px] p-4 w-[246px] h-[145px] shadow-xl">
+          <div className="bg-[#fff] rounded-[30px] p-4 w-[246px] h-[145px] shadow-xl">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-[#707178] ml-5">CO2</h2>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -127,7 +127,7 @@ function Card() {
           </div>
 
           {/* Block 2 */}
-          <div className="bg-gray-200 rounded-[30px] p-4 w-[246px] h-[145px] shadow-xl">
+          <div className="bg-[#fff] rounded-[30px] p-4 w-[246px] h-[145px] shadow-xl">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-[#707178] ml-5">VOC</h2>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -152,7 +152,7 @@ function Card() {
           </div>
 
           {/* Block 3 */}
-          <div className="bg-gray-200 rounded-[30px] p-4 w-[246px] h-[145px] shadow-xl">
+          <div className="bg-[#fff] rounded-[30px] p-4 w-[246px] h-[145px] shadow-xl">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-[#707178] ml-5">
                 RODON
@@ -182,7 +182,7 @@ function Card() {
 
       <div className="flex">
         {/* Block 4 */}
-        <div className="bg-gray-200 rounded-[30px] p-6 w-[370px] h-[419px] shadow-xl border ">
+        <div className="bg-[#fff] rounded-[30px] p-6 w-[370px] h-[419px] shadow-xl border ">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold  text-[#707178]">PRESSURE</h2>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -209,7 +209,6 @@ function Card() {
             </h2>
           </div>
         </div>
-
       </div>
     </div>
   );

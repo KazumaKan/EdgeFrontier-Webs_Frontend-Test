@@ -25,8 +25,11 @@ const DeviceL = () => {
   // Update device data when WebSocket sends new data
   useEffect(() => {
     const updateDeviceData = () => {
-      const updatedDevice = {
-        ID: "Slot-1",
+      const updatedDevices = [];
+
+      // Slot 1: Update with the latest data from dataStore
+      updatedDevices.push({
+        ID: "EF001",
         CO2: dataStore.CO2 || "N/A",
         VOC: dataStore.VOC || "N/A",
         RADON: dataStore.RA || "N/A",
@@ -37,35 +40,30 @@ const DeviceL = () => {
           ? new Date(dataStore.TimeStamp).toLocaleString()
           : "N/A",
         Status: dataStore.Event || "N/A",
-      };
-  
-      setDevices(() => {
-        // อัปเดต Slot-1 ด้วยข้อมูลล่าสุด
-        const slots = [updatedDevice];
-  
-        // เพิ่มช่องว่างสำหรับ Slot-2 ถึง Slot-5
-        for (let i = 2; i <= 5; i++) {
-          slots.push({
-            ID: `Slot-${i}`,
-            CO2: "N/A",
-            VOC: "N/A",
-            RADON: "N/A",
-            PRESSURE: "N/A",
-            HUM: "N/A",
-            TEMP: "N/A",
-            Date: "N/A",
-            Status: "N/A",
-          });
-        }
-  
-        return slots;
       });
+
+      // Slots 2 to 5: Use placeholder data
+      for (let i = 2; i <= 5; i++) {
+        updatedDevices.push({
+          ID: `EF00${i}`,
+          CO2: "N/A",
+          VOC: "N/A",
+          RADON: "N/A",
+          PRESSURE: "N/A",
+          HUM: "N/A",
+          TEMP: "N/A",
+          Date: "N/A",
+          Status: "N/A",
+        });
+      }
+
+      setDevices(updatedDevices);
     };
-  
-    const interval = setInterval(updateDeviceData, 1000); // อัปเดตทุกๆ 1 วินาที
-    return () => clearInterval(interval); // ล้างข้อมูลเมื่อ Component ถูก unmount
+
+    const interval = setInterval(updateDeviceData, 1000); // Update every 1 second
+    return () => clearInterval(interval); // Cleanup when component unmounts
   }, []);
-  
+
   // Divide devices into chunks of 5
   const chunkDevices = (array, size) =>
     array.reduce((resultArray, item, index) => {
@@ -79,6 +77,7 @@ const DeviceL = () => {
 
   const deviceChunks = chunkDevices(devices, 5); // Split into chunks of 5
 
+  // Handle the selection/deselection of metrics in dropdown
   const toggleMetric = (key) => {
     if (selectedMetrics.includes(key)) {
       setSelectedMetrics(selectedMetrics.filter((metric) => metric !== key));
@@ -88,16 +87,16 @@ const DeviceL = () => {
   };
 
   return (
-    <div className="flex flex-col items-center  bg-gray-200 p-5 rounded-lg shadow-xl w-full relative mt-6">
+    <div className="flex flex-col items-center bg-[#fff] p-5 rounded-lg shadow-xl w-full relative mt-6">
       {/* Title and Dropdown in the same row */}
       <div className="flex items-center justify-between w-full mb-6">
-        <h2 className="text-2xl font-bold text-[#707178]">Device Group</h2>
+        <h2 className="text-xl font-semibold  text-[#707178]">Data</h2>
 
         {/* Dropdown for selecting metrics */}
         <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none transition duration-200"
+            className="bg-[#ffffff] border border-[#ddd] text-[#323232] py-2 px-4 rounded-lg shadow-sm hover:bg-[#d4d3d3] focus:outline-none transition duration-200"
           >
             Select Metrics
             <span
@@ -129,15 +128,15 @@ const DeviceL = () => {
         </div>
       </div>
 
-      {/* Device groups */}
+      {/* Data */}
       {deviceChunks.map((chunk, chunkIndex) => (
-        <div key={chunkIndex} className="w-full max-w-7xl bg-white shadow-lg rounded-lg p-5">
+        <div key={chunkIndex} className="w-full max-w-7xl bg-[#fff] p-3 rounded-lg">
           {/* Check if chunk has no data */}
           {chunk.length === 0 ? (
-            <div className="text-center text-gray-500 py-4">No Data Available</div>
+            <div className="text-center text-[#fff] py-4">No Data Available</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full table-auto border-collapse border border-gray-200">
+              <table className="min-w-full table-auto border-collapse border border-[#fff]">
                 <thead>
                   <tr className="bg-[#58A1DC] text-white">
                     <th className="px-4 py-2 border">ID</th>
@@ -155,7 +154,7 @@ const DeviceL = () => {
                   {chunk.map((device, index) => (
                     <tr
                       key={index}
-                      className={`hover:bg-gray-100 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
+                      className={`hover:bg-gray-100 ${index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#e5e4e4]"}`}
                     >
                       <td className="px-4 py-2 border">{device.ID}</td>
                       <td className="px-4 py-2 border">

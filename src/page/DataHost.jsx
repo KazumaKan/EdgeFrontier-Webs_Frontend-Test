@@ -10,8 +10,17 @@ export const dataStore = {
   Event: null,
   HardwareID: null,
   TimeStamp: null,
-  lastReceivedTime: null, // เก็บเวลาที่รับข้อมูลล่าสุด
-  speed: null, // ความเร็วการส่งข้อมูล
+  lastReceivedTime: null,
+  speed: null,
+  Prediction: {
+    Cold: null,
+    Warm: null,
+    Hot: null,
+    Dry: null,
+    Wet: null,
+    Normal: null,
+    Unknown: null,
+  },
 };
 
 socket.onmessage = (event) => {
@@ -20,28 +29,29 @@ socket.onmessage = (event) => {
       const parsedData = JSON.parse(event.data);
       const currentTime = Date.now();
 
-      // คำนวณความเร็วในการส่งข้อมูล
       if (dataStore.lastReceivedTime) {
-        const timeDiff = currentTime - dataStore.lastReceivedTime; // คำนวณเวลาที่ใช้
-        dataStore.speed = 1000 / timeDiff; // ความเร็ว (ข้อมูลที่ส่งมาใน 1 วินาที)
+        const timeDiff = currentTime - dataStore.lastReceivedTime;
+        dataStore.speed = 1000 / timeDiff;
       }
 
-      // อัพเดตข้อมูลใน dataStore
-      dataStore.CO2 = parsedData.Data.CO2;
-      dataStore.HUMID = parsedData.Data.HUMID;
-      dataStore.PRESSURE = parsedData.Data.PRESSURE;
-      dataStore.RA = parsedData.Data.RA;
-      dataStore.TEMP = parsedData.Data.TEMP;
-      dataStore.VOC = parsedData.Data.VOC;
+      // อัปเดตค่าที่ได้รับจาก WebSocket และทำการปัดเศษทศนิยมให้มีสูงสุดแค่ 2 ตำแหน่ง
+      dataStore.CO2 = parseFloat(parsedData.Data.CO2).toFixed(2);
+      dataStore.HUMID = parseFloat(parsedData.Data.HUMID).toFixed(2);
+      dataStore.PRESSURE = parseFloat(parsedData.Data.PRESSURE).toFixed(2);
+      dataStore.RA = parseFloat(parsedData.Data.RA).toFixed(2);
+      dataStore.TEMP = parseFloat(parsedData.Data.TEMP).toFixed(2);
+      dataStore.VOC = parseFloat(parsedData.Data.VOC).toFixed(2);
       dataStore.Event = parsedData.Event;
-      dataStore.HardwareID = parsedData.HardwareID;
-      dataStore.TimeStamp = parsedData.TimeStamp;
 
-      // แสดงข้อมูลใน Console
-      console.log("Received Data:", parsedData);
-      console.log("Speed (data/sec):", dataStore.speed);
+      // อัปเดตข้อมูล Prediction
+      dataStore.Prediction.Cold = parsedData.Prediction?.Cold ?? "N/A";
+      dataStore.Prediction.Warm = parsedData.Prediction?.Warm ?? "N/A";
+      dataStore.Prediction.Hot = parsedData.Prediction?.Hot ?? "N/A";
+      dataStore.Prediction.Dry = parsedData.Prediction?.Dry ?? "N/A";
+      dataStore.Prediction.Wet = parsedData.Prediction?.Wet ?? "N/A";
+      dataStore.Prediction.Normal = parsedData.Prediction?.Normal ?? "N/A";
+      dataStore.Prediction.Unknown = parsedData.Prediction?.Unknown ?? "N/A";
 
-      // อัพเดตเวลาเมื่อรับข้อมูลล่าสุด
       dataStore.lastReceivedTime = currentTime;
     }
   } catch (err) {
@@ -50,15 +60,15 @@ socket.onmessage = (event) => {
 };
 
 socket.onopen = () => {
-  console.log("WebSocket is connected");
+  console.info("WebSocket connected");
 };
 
 socket.onerror = (error) => {
-  console.error("WebSocket Error:", error);
+  console.error("WebSocket error:", error);
 };
 
 socket.onclose = () => {
-  console.log("WebSocket connection closed");
+  console.warn("WebSocket connection closed");
 };
 
 export default socket;

@@ -59,9 +59,9 @@ const FlowData = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r bg-gray-200 p-5 rounded-lg shadow-xl w-full relative mt-6">
+    <div className="bg-gradient-to-r bg-[#fff] p-5 rounded-lg shadow-xl w-full relative mt-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-extrabold text-[#707178]">Flow Data Visualization</h2>
+        <h2 className="text-lg font-semibold text-[#707178]">Data Flow </h2>
 
         {/* Dropdown for selecting metrics */}
         <div className="relative">
@@ -71,7 +71,9 @@ const FlowData = () => {
           >
             ALL
             <span
-              className={`ml-2 transform ${dropdownOpen ? "rotate-180" : "rotate-0"} transition-transform`}
+              className={`ml-2 transform ${
+                dropdownOpen ? "rotate-180" : "rotate-0"
+              } transition-transform`}
             >
               ▼
             </span>
@@ -98,20 +100,35 @@ const FlowData = () => {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow-lg">
+      <div className="bg-[#F2F2F2] p-4 rounded-lg shadow-lg">
         <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+          <LineChart
+            data={chartData}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="time" />
-            <YAxis />
+            <YAxis domain={[0, 'dataMax']} /> {/* Dynamic Y-axis limit */}
             <Tooltip />
             <Legend />
-            {selectedMetrics.includes("TEMP") && <Line type="monotone" dataKey="TEMP" stroke="#3ABEFF" />}
-            {selectedMetrics.includes("HUMID") && <Line type="monotone" dataKey="HUMID" stroke="#0F5DC3" />}
-            {selectedMetrics.includes("CO2") && <Line type="monotone" dataKey="CO2" stroke="#FF9D00" />}
-            {selectedMetrics.includes("VOC") && <Line type="monotone" dataKey="VOC" stroke="#43D2A7" />}
-            {selectedMetrics.includes("RODON") && <Line type="monotone" dataKey="RODON" stroke="#67A4F4" />}
-            {selectedMetrics.includes("PRESSURE") && <Line type="monotone" dataKey="PRESSURE" stroke="#DB2777" />}
+            {selectedMetrics.includes("TEMP") && (
+              <Line type="monotone" dataKey="TEMP" stroke="#3ABEFF" />
+            )}
+            {selectedMetrics.includes("HUMID") && (
+              <Line type="monotone" dataKey="HUMID" stroke="#0F5DC3" />
+            )}
+            {selectedMetrics.includes("CO2") && (
+              <Line type="monotone" dataKey="CO2" stroke="#FF9D00" />
+            )}
+            {selectedMetrics.includes("VOC") && (
+              <Line type="monotone" dataKey="VOC" stroke="#43D2A7" />
+            )}
+            {selectedMetrics.includes("RODON") && (
+              <Line type="monotone" dataKey="RODON" stroke="#67A4F4" />
+            )}
+            {selectedMetrics.includes("PRESSURE") && (
+              <Line type="monotone" dataKey="PRESSURE" stroke="#DB2777" />
+            )}
           </LineChart>
         </ResponsiveContainer>
       </div>
