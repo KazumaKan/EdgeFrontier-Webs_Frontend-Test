@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { dataStore } from "../page/DataHost";
 
 const DeviceL = () => {
@@ -100,7 +100,9 @@ const DeviceL = () => {
           >
             Select Metrics
             <span
-              className={`ml-2 transform ${dropdownOpen ? "rotate-180" : "rotate-0"} transition-transform`}
+              className={`ml-2 transform ${
+                dropdownOpen ? "rotate-180" : "rotate-0"
+              } transition-transform`}
             >
               ▼
             </span>
@@ -130,10 +132,15 @@ const DeviceL = () => {
 
       {/* Data */}
       {deviceChunks.map((chunk, chunkIndex) => (
-        <div key={chunkIndex} className="w-full max-w-7xl bg-[#fff] p-3 rounded-lg">
+        <div
+          key={chunkIndex}
+          className="w-full max-w-7xl bg-[#fff] p-3 rounded-lg"
+        >
           {/* Check if chunk has no data */}
           {chunk.length === 0 ? (
-            <div className="text-center text-[#fff] py-4">No Data Available</div>
+            <div className="text-center text-[#fff] py-4">
+              No Data Available
+            </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full table-auto border-collapse border border-[#fff]">
@@ -154,26 +161,40 @@ const DeviceL = () => {
                   {chunk.map((device, index) => (
                     <tr
                       key={index}
-                      className={`hover:bg-gray-100 ${index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#e5e4e4]"}`}
+                      className={`hover:bg-gray-100 ${
+                        index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#e5e4e4]"
+                      }`}
                     >
                       <td className="px-4 py-2 border">{device.ID}</td>
                       <td className="px-4 py-2 border">
-                        {selectedMetrics.includes("CO2") ? `${device.CO2} ppm` : "-"}
+                        {selectedMetrics.includes("CO2")
+                          ? `${device.CO2} ppm`
+                          : "-"}
                       </td>
                       <td className="px-4 py-2 border">
-                        {selectedMetrics.includes("VOC") ? `${device.VOC} ppm` : "-"}
+                        {selectedMetrics.includes("VOC")
+                          ? `${device.VOC} ppm`
+                          : "-"}
                       </td>
                       <td className="px-4 py-2 border">
-                        {selectedMetrics.includes("RA") ? `${device.RADON} Bq/m³` : "-"}
+                        {selectedMetrics.includes("RA")
+                          ? `${device.RADON} Bq/m³`
+                          : "-"}
                       </td>
                       <td className="px-4 py-2 border">
-                        {selectedMetrics.includes("PRESSURE") ? `${device.PRESSURE} Pa` : "-"}
+                        {selectedMetrics.includes("PRESSURE")
+                          ? `${device.PRESSURE} Pa`
+                          : "-"}
                       </td>
                       <td className="px-4 py-2 border">
-                        {selectedMetrics.includes("HUMID") ? `${device.HUM} %` : "-"}
+                        {selectedMetrics.includes("HUMID")
+                          ? `${device.HUM} %`
+                          : "-"}
                       </td>
                       <td className="px-4 py-2 border">
-                        {selectedMetrics.includes("TEMP") ? `${device.TEMP} °C` : "-"}
+                        {selectedMetrics.includes("TEMP")
+                          ? `${device.TEMP} °C`
+                          : "-"}
                       </td>
                       <td className="px-4 py-2 border">{device.Date}</td>
                       <td

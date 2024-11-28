@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import proF from "../assets/profile.png";
 import factory from "../assets/factory.png";
 import { IoMdNotifications } from "react-icons/io";
